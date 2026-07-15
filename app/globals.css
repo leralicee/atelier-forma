@@ -1,0 +1,139 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --concrete: #f5f4f0;
+  --concrete-2: #eceae4;
+  --line: #d8d6d0;
+  --graphite: #1a1a1a;
+  --slate: #6b6862;
+  --copper: #b87333;
+  --copper-deep: #8e5826;
+
+  --ease-forma: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-draft: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+
+    scroll-behavior: auto;
+  }
+
+  body {
+    background-color: var(--concrete);
+    color: var(--graphite);
+    font-family: var(--font-grotesk), system-ui, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background-color: var(--copper);
+    color: var(--concrete);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--copper);
+    outline-offset: 3px;
+  }
+
+  body[data-crosshair='on'],
+  body[data-crosshair='on'] * {
+    cursor: none;
+  }
+
+  .font-mono {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@layer components {
+
+  .label {
+    font-family: var(--font-grotesk), system-ui, sans-serif;
+    font-size: 0.75rem;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: var(--slate);
+  }
+
+  .copper-rule {
+    height: 1px;
+    background-color: var(--copper);
+  }
+
+  .underline-draw {
+    position: relative;
+  }
+  .underline-draw::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -0.2em;
+    height: 1px;
+    width: 100%;
+    background-color: var(--copper);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.6s var(--ease-forma);
+  }
+  .underline-draw:hover::after,
+  .underline-draw:focus-visible::after {
+    transform: scaleX(1);
+  }
+
+  .grain::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: 5;
+    pointer-events: none;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+}
+
+@layer utilities {
+  .hide-scrollbar {
+    scrollbar-width: none;
+  }
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+  body[data-crosshair='on'],
+  body[data-crosshair='on'] * {
+    cursor: auto !important;
+  }
+}
+
+@media print {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+  body {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+  .grain::before {
+    display: none !important;
+  }
+}
